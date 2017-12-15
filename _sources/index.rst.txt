@@ -1,0 +1,16 @@
+Documentation for Brown Core Cloud Jupyterhub Deployment
+========================================================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   walkthrough
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
