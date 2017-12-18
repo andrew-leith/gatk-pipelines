@@ -1,0 +1,16 @@
+Documentation for Brown Core GATK Pipeline Deployments
+======================================================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   gatk
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
