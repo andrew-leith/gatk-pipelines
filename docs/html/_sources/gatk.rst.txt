@@ -48,7 +48,7 @@ Using samtools, process the SAM file into a sorted BAM file::
   samtools sort $mysamplebase".bam" -T temp -o $mysamplebase"_sorted.bam"
   samtools index $mysamplebase"_sorted.bam"
 
-Run Picard Tools' MeanQualityByCycle utility::
+Run Picard Tools' `MeanQualityByCycle <https://broadinstitute.github.io/picard/command-line-overview.html#MeanQualityByCycle>` utility::
 
   picard MeanQualityByCycle \
     INPUT=$mysamplebase"_sorted.bam" \
