@@ -1,10 +1,6 @@
-.. role:: red
-
-
 Walkthrough
 ===========
 
-I like color :red:`rubric`.
 
 
 Required Reference Files
@@ -113,7 +109,7 @@ The resulting BAM file is then indexed::
   picard BuildBamIndex \
     I=$mysamplebase"_sorted_dedup_realigned.bam"
 
-GATK base recalibrator::
+GATK `BaseRecalibrator <https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_gatk_tools_walkers_bqsr_BaseRecalibrator.php>`_::
 
   gatk -T BaseRecalibrator \
     -R $myfasta \
@@ -131,6 +127,7 @@ GATK base recalibrator::
     -BQSR $mysamplebase"_recal_table.txt" \
     -o $mysamplebase"_post_recal_table.txt"
 
+Picard `CollectOxoGMetrics <https://broadinstitute.github.io/picard/command-line-overview.html#CollectOxoGMetrics>`_::
 
   picard CollectOxoGMetrics \
     I=$mysamplebase"_sorted_dedup_realigned.bam" \
@@ -138,16 +135,22 @@ GATK base recalibrator::
     R=$myfasta \
     VALIDATION_STRINGENCY=LENIENT
 
+Picard `CollectSequencingArtifactMetrics <https://broadinstitute.github.io/picard/command-line-overview.html#CollectSequencingArtifactMetrics>`_::
+
   picard CollectSequencingArtifactMetrics \
     I=$mysamplebase"_sorted_dedup_realigned.bam" \
     O=$mysamplebase"_sorted_dedup_realigned_artifact_metrics.txt" \
     R=$myfasta \
     VALIDATION_STRINGENCY=LENIENT
 
+Picard `CollectAlignmentSummaryMetrics <https://broadinstitute.github.io/picard/command-line-overview.html#CollectAlignmentSummaryMetrics>`_::
+
   picard CollectAlignmentSummaryMetrics \
     R=$myfasta \
     I=$mysamplebase"_sorted_dedup_realigned.bam" \
     O=$mysamplebase"_sorted_dedup_realigned_alignment_metrics.txt"
+
+Picard `CollectInsertSizeMetrics <https://broadinstitute.github.io/picard/command-line-overview.html#CollectInsertSizeMetrics>`_::
 
   picard CollectInsertSizeMetrics \
     I=$mysamplebase"_sorted_dedup_realigned.bam" \
@@ -155,11 +158,15 @@ GATK base recalibrator::
     H=$mysamplebase"_sorted_dedup_realigned_insert_size_histogram.pdf" \
     M=0.5
 
+GATK `AnalyzeCovariates <https://software.broadinstitute.org/gatk/gatkdocs/3.5-0/org_broadinstitute_gatk_tools_walkers_bqsr_AnalyzeCovariates.php>`_::
+
   gatk -T AnalyzeCovariates \
     -R $myfasta \
     -before $mysamplebase"_recal_table.txt" \
     -after $mysamplebase"_post_recal_table.txt" \
     -plots $mysamplebase"_recalibration_plots.pdf"
+
+GATK `PrintReads <https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_gatk_tools_walkers_readutils_PrintReads.php>`_::
 
   gatk -T PrintReads \
     -R $myfasta \
@@ -167,8 +174,12 @@ GATK base recalibrator::
     -BQSR $mysamplebase"_recal_table.txt" \
     -o  $mysamplebase"_GATK.bam"
 
+Picard `BuildBamIndex <https://broadinstitute.github.io/picard/command-line-overview.html#BuildBamIndex>`_::
+
   picard BuildBamIndex \
     I= $mysamplebase"_GATK.bam"
+
+GATK `HaplotypeCaller <https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_gatk_tools_walkers_haplotypecaller_HaplotypeCaller.php>`_::
 
   gatk -Xmx64g -T HaplotypeCaller --disable_auto_index_creation_and_locking_when_reading_rods \
     -R $myfasta \
@@ -186,22 +197,25 @@ GATK base recalibrator::
 Combined-Sample Analysis
 ========================
 
-After::
+Generate a list of samples::
 
   ls -1a *GATK-HC_exac.g.vcf > vcfs_exac.list
+
+GATK `GenotypeGVCFs <https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_gatk_tools_walkers_variantutils_GenotypeGVCFs.php>`_::
 
   gatk -T GenotypeGVCFs \
     -R "/users/aleith/scratch/broad/ftp.broadinstitute.org/bundle/hg19/ucsc.hg19.fasta" \
     --variant "vcfs_exac.list" \
     -o "all_GATK-HC_joined_exac.g.vcf"
 
+Picard `MakeSitesOnlyVcf <https://broadinstitute.github.io/picard/command-line-overview.html#MakeSitesOnlyVcf>`_::
 
   picard MakeSitesOnlyVcf \
     INPUT="all_GATK-HC_joined_exac.g.vcf" \
     OUTPUT="all_GATK-HC_joined_sites_only_exac.g.vcf" \
     VALIDATION_STRINGENCY=LENIENT
 
-
+GATK `VariantRecalibrator <https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_gatk_tools_walkers_variantrecalibration_VariantRecalibrator.php>`_::
 
   gatk -T VariantRecalibrator \
     -R "/users/aleith/scratch/broad/ftp.broadinstitute.org/bundle/hg19/ucsc.hg19.fasta" \
@@ -220,6 +234,8 @@ After::
     -tranchesFile "all_recalibrate_SNP_exac.tranches" \
     -rscriptFile "all_recalibrate_SNP_plots_exac.R"
 
+GATK `ApplyRecalibration <https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_gatk_tools_walkers_variantrecalibration_ApplyRecalibration.php>`_::
+
   gatk -T ApplyRecalibration \
     -R "/users/aleith/scratch/broad/ftp.broadinstitute.org/bundle/hg19/ucsc.hg19.fasta" \
     -input "all_GATK-HC_joined_sites_only_exac.g.vcf" \
@@ -228,6 +244,8 @@ After::
     -recalFile "all_recalibrate_SNP_exac.recal" \
     -tranchesFile "all_recalibrate_SNP_exac.tranches" \
     -o "all_recalibrated_snps_raw_indels_exac.vcf"
+
+GATK `VariantRecalibrator <https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_gatk_tools_walkers_variantrecalibration_VariantRecalibrator.php>`_::
 
   gatk -T VariantRecalibrator \
     -R "/users/aleith/scratch/broad/ftp.broadinstitute.org/bundle/hg19/ucsc.hg19.fasta" \
@@ -242,6 +260,8 @@ After::
     -recalFile "all_recalibrate_INDEL_exac.recal" \
     -tranchesFile "all_recalibrate_INDEL_exac.tranches" \
     -rscriptFile "all_recalibrate_INDEL_plots_exac.R"
+
+GATK `ApplyRecalibration <https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_gatk_tools_walkers_variantrecalibration_ApplyRecalibration.php>`_::
 
   gatk -T ApplyRecalibration \
     -R "/users/aleith/scratch/broad/ftp.broadinstitute.org/bundle/hg19/ucsc.hg19.fasta" \

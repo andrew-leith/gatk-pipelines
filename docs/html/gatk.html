@@ -42,7 +42,6 @@
             
   <div class="section" id="walkthrough">
 <h1>Walkthrough<a class="headerlink" href="#walkthrough" title="Permalink to this headline">¶</a></h1>
-<p>I like color <span class="red">rubric</span>.</p>
 </div>
 <div class="section" id="required-reference-files">
 <h1>Required Reference Files<a class="headerlink" href="#required-reference-files" title="Permalink to this headline">¶</a></h1>
@@ -142,7 +141,7 @@ gatk -T IndelRealigner \
   I=$mysamplebase&quot;_sorted_dedup_realigned.bam&quot;
 </pre></div>
 </div>
-<p>GATK base recalibrator:</p>
+<p>GATK <a class="reference external" href="https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_gatk_tools_walkers_bqsr_BaseRecalibrator.php">BaseRecalibrator</a>:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>gatk -T BaseRecalibrator \
   -R $myfasta \
   -knownSites $mysnp \
@@ -158,47 +157,62 @@ gatk -T BaseRecalibrator \
   -knownSites $myindel \
   -BQSR $mysamplebase&quot;_recal_table.txt&quot; \
   -o $mysamplebase&quot;_post_recal_table.txt&quot;
-
-
-picard CollectOxoGMetrics \
+</pre></div>
+</div>
+<p>Picard <a class="reference external" href="https://broadinstitute.github.io/picard/command-line-overview.html#CollectOxoGMetrics">CollectOxoGMetrics</a>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>picard CollectOxoGMetrics \
   I=$mysamplebase&quot;_sorted_dedup_realigned.bam&quot; \
   O=$mysamplebase&quot;_sorted_dedup_realigned_oxoG_metrics.txt&quot; \
   R=$myfasta \
   VALIDATION_STRINGENCY=LENIENT
-
-picard CollectSequencingArtifactMetrics \
+</pre></div>
+</div>
+<p>Picard <a class="reference external" href="https://broadinstitute.github.io/picard/command-line-overview.html#CollectSequencingArtifactMetrics">CollectSequencingArtifactMetrics</a>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>picard CollectSequencingArtifactMetrics \
   I=$mysamplebase&quot;_sorted_dedup_realigned.bam&quot; \
   O=$mysamplebase&quot;_sorted_dedup_realigned_artifact_metrics.txt&quot; \
   R=$myfasta \
   VALIDATION_STRINGENCY=LENIENT
-
-picard CollectAlignmentSummaryMetrics \
+</pre></div>
+</div>
+<p>Picard <a class="reference external" href="https://broadinstitute.github.io/picard/command-line-overview.html#CollectAlignmentSummaryMetrics">CollectAlignmentSummaryMetrics</a>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>picard CollectAlignmentSummaryMetrics \
   R=$myfasta \
   I=$mysamplebase&quot;_sorted_dedup_realigned.bam&quot; \
   O=$mysamplebase&quot;_sorted_dedup_realigned_alignment_metrics.txt&quot;
-
-picard CollectInsertSizeMetrics \
+</pre></div>
+</div>
+<p>Picard <a class="reference external" href="https://broadinstitute.github.io/picard/command-line-overview.html#CollectInsertSizeMetrics">CollectInsertSizeMetrics</a>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>picard CollectInsertSizeMetrics \
   I=$mysamplebase&quot;_sorted_dedup_realigned.bam&quot; \
   O=$mysamplebase&quot;_sorted_dedup_realigned_insert_size_metrics.txt&quot; \
   H=$mysamplebase&quot;_sorted_dedup_realigned_insert_size_histogram.pdf&quot; \
   M=0.5
-
-gatk -T AnalyzeCovariates \
+</pre></div>
+</div>
+<p>GATK <a class="reference external" href="https://software.broadinstitute.org/gatk/gatkdocs/3.5-0/org_broadinstitute_gatk_tools_walkers_bqsr_AnalyzeCovariates.php">AnalyzeCovariates</a>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>gatk -T AnalyzeCovariates \
   -R $myfasta \
   -before $mysamplebase&quot;_recal_table.txt&quot; \
   -after $mysamplebase&quot;_post_recal_table.txt&quot; \
   -plots $mysamplebase&quot;_recalibration_plots.pdf&quot;
-
-gatk -T PrintReads \
+</pre></div>
+</div>
+<p>GATK <a class="reference external" href="https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_gatk_tools_walkers_readutils_PrintReads.php">PrintReads</a>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>gatk -T PrintReads \
   -R $myfasta \
   -I $mysamplebase&quot;_sorted_dedup_realigned.bam&quot; \
   -BQSR $mysamplebase&quot;_recal_table.txt&quot; \
   -o  $mysamplebase&quot;_GATK.bam&quot;
-
-picard BuildBamIndex \
+</pre></div>
+</div>
+<p>Picard <a class="reference external" href="https://broadinstitute.github.io/picard/command-line-overview.html#BuildBamIndex">BuildBamIndex</a>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>picard BuildBamIndex \
   I= $mysamplebase&quot;_GATK.bam&quot;
-
-gatk -Xmx64g -T HaplotypeCaller --disable_auto_index_creation_and_locking_when_reading_rods \
+</pre></div>
+</div>
+<p>GATK <a class="reference external" href="https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_gatk_tools_walkers_haplotypecaller_HaplotypeCaller.php">HaplotypeCaller</a>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>gatk -Xmx64g -T HaplotypeCaller --disable_auto_index_creation_and_locking_when_reading_rods \
   -R $myfasta \
   -I  $mysamplebase&quot;_GATK.bam&quot; \
   --dbsnp  $mysnp \
@@ -214,23 +228,26 @@ gatk -Xmx64g -T HaplotypeCaller --disable_auto_index_creation_and_locking_when_r
 </div>
 <div class="section" id="combined-sample-analysis">
 <h1>Combined-Sample Analysis<a class="headerlink" href="#combined-sample-analysis" title="Permalink to this headline">¶</a></h1>
-<p>After:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>ls -1a *GATK-HC_exac.g.vcf &gt; vcfs_exac.list
-
-gatk -T GenotypeGVCFs \
-  -R &quot;/users/aleith/scratch/broad/ftp.broadinstitute.org/bundle/hg19/ucsc.hg19.fasta&quot; \
-  --variant &quot;vcfs_exac.list&quot; \
-  -o &quot;all_GATK-HC_joined_exac.g.vcf&quot;
-
-
-picard MakeSitesOnlyVcf \
-  INPUT=&quot;all_GATK-HC_joined_exac.g.vcf&quot; \
-  OUTPUT=&quot;all_GATK-HC_joined_sites_only_exac.g.vcf&quot; \
-  VALIDATION_STRINGENCY=LENIENT
-
-
-
-gatk -T VariantRecalibrator \
+<p>Generate a list of samples:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="mi">1</span><span class="n">a</span> <span class="o">*</span><span class="n">GATK</span><span class="o">-</span><span class="n">HC_exac</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">vcf</span> <span class="o">&gt;</span> <span class="n">vcfs_exac</span><span class="o">.</span><span class="n">list</span>
+</pre></div>
+</div>
+<p>GATK <a class="reference external" href="https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_gatk_tools_walkers_variantutils_GenotypeGVCFs.php">GenotypeGVCFs</a>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">gatk</span> <span class="o">-</span><span class="n">T</span> <span class="n">GenotypeGVCFs</span> \
+  <span class="o">-</span><span class="n">R</span> <span class="s2">&quot;/users/aleith/scratch/broad/ftp.broadinstitute.org/bundle/hg19/ucsc.hg19.fasta&quot;</span> \
+  <span class="o">--</span><span class="n">variant</span> <span class="s2">&quot;vcfs_exac.list&quot;</span> \
+  <span class="o">-</span><span class="n">o</span> <span class="s2">&quot;all_GATK-HC_joined_exac.g.vcf&quot;</span>
+</pre></div>
+</div>
+<p>Picard <a class="reference external" href="https://broadinstitute.github.io/picard/command-line-overview.html#MakeSitesOnlyVcf">MakeSitesOnlyVcf</a>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">picard</span> <span class="n">MakeSitesOnlyVcf</span> \
+  <span class="n">INPUT</span><span class="o">=</span><span class="s2">&quot;all_GATK-HC_joined_exac.g.vcf&quot;</span> \
+  <span class="n">OUTPUT</span><span class="o">=</span><span class="s2">&quot;all_GATK-HC_joined_sites_only_exac.g.vcf&quot;</span> \
+  <span class="n">VALIDATION_STRINGENCY</span><span class="o">=</span><span class="n">LENIENT</span>
+</pre></div>
+</div>
+<p>GATK <a class="reference external" href="https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_gatk_tools_walkers_variantrecalibration_VariantRecalibrator.php">VariantRecalibrator</a>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>gatk -T VariantRecalibrator \
   -R &quot;/users/aleith/scratch/broad/ftp.broadinstitute.org/bundle/hg19/ucsc.hg19.fasta&quot; \
   -input &quot;all_GATK-HC_joined_sites_only_exac.g.vcf&quot; \
   -resource:hapmap,known=false,training=true,truth=true,prior=15.0 /users/aleith/scratch/broad/ftp.broadinstitute.org/bundle/hg19/hapmap_3.3.hg19.sites.vcf \
@@ -246,17 +263,21 @@ gatk -T VariantRecalibrator \
   -recalFile &quot;all_recalibrate_SNP_exac.recal&quot; \
   -tranchesFile &quot;all_recalibrate_SNP_exac.tranches&quot; \
   -rscriptFile &quot;all_recalibrate_SNP_plots_exac.R&quot;
-
-gatk -T ApplyRecalibration \
-  -R &quot;/users/aleith/scratch/broad/ftp.broadinstitute.org/bundle/hg19/ucsc.hg19.fasta&quot; \
-  -input &quot;all_GATK-HC_joined_sites_only_exac.g.vcf&quot; \
-  -mode SNP \
-  --ts_filter_level 99.6 \
-  -recalFile &quot;all_recalibrate_SNP_exac.recal&quot; \
-  -tranchesFile &quot;all_recalibrate_SNP_exac.tranches&quot; \
-  -o &quot;all_recalibrated_snps_raw_indels_exac.vcf&quot;
-
-gatk -T VariantRecalibrator \
+</pre></div>
+</div>
+<p>GATK <a class="reference external" href="https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_gatk_tools_walkers_variantrecalibration_ApplyRecalibration.php">ApplyRecalibration</a>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">gatk</span> <span class="o">-</span><span class="n">T</span> <span class="n">ApplyRecalibration</span> \
+  <span class="o">-</span><span class="n">R</span> <span class="s2">&quot;/users/aleith/scratch/broad/ftp.broadinstitute.org/bundle/hg19/ucsc.hg19.fasta&quot;</span> \
+  <span class="o">-</span><span class="nb">input</span> <span class="s2">&quot;all_GATK-HC_joined_sites_only_exac.g.vcf&quot;</span> \
+  <span class="o">-</span><span class="n">mode</span> <span class="n">SNP</span> \
+  <span class="o">--</span><span class="n">ts_filter_level</span> <span class="mf">99.6</span> \
+  <span class="o">-</span><span class="n">recalFile</span> <span class="s2">&quot;all_recalibrate_SNP_exac.recal&quot;</span> \
+  <span class="o">-</span><span class="n">tranchesFile</span> <span class="s2">&quot;all_recalibrate_SNP_exac.tranches&quot;</span> \
+  <span class="o">-</span><span class="n">o</span> <span class="s2">&quot;all_recalibrated_snps_raw_indels_exac.vcf&quot;</span>
+</pre></div>
+</div>
+<p>GATK <a class="reference external" href="https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_gatk_tools_walkers_variantrecalibration_VariantRecalibrator.php">VariantRecalibrator</a>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>gatk -T VariantRecalibrator \
   -R &quot;/users/aleith/scratch/broad/ftp.broadinstitute.org/bundle/hg19/ucsc.hg19.fasta&quot; \
   -input &quot;all_recalibrated_snps_raw_indels_exac.vcf&quot; \
   -resource:mills,known=false,training=true,truth=true,prior=12.0 /users/aleith/scratch/broad/ftp.broadinstitute.org/bundle/hg19/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf \
@@ -269,15 +290,17 @@ gatk -T VariantRecalibrator \
   -recalFile &quot;all_recalibrate_INDEL_exac.recal&quot; \
   -tranchesFile &quot;all_recalibrate_INDEL_exac.tranches&quot; \
   -rscriptFile &quot;all_recalibrate_INDEL_plots_exac.R&quot;
-
-gatk -T ApplyRecalibration \
-  -R &quot;/users/aleith/scratch/broad/ftp.broadinstitute.org/bundle/hg19/ucsc.hg19.fasta&quot; \
-  -input &quot;all_recalibrated_snps_raw_indels_exac.vcf&quot; \
-  -mode INDEL \
-  --ts_filter_level 95.0 \
-  -recalFile &quot;all_recalibrate_INDEL_exac.recal&quot; \
-  -tranchesFile &quot;all_recalibrate_INDEL_exac.tranches&quot; \
-  -o &quot;all_recalibrated_variants_exac.vcf&quot;
+</pre></div>
+</div>
+<p>GATK <a class="reference external" href="https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_gatk_tools_walkers_variantrecalibration_ApplyRecalibration.php">ApplyRecalibration</a>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">gatk</span> <span class="o">-</span><span class="n">T</span> <span class="n">ApplyRecalibration</span> \
+  <span class="o">-</span><span class="n">R</span> <span class="s2">&quot;/users/aleith/scratch/broad/ftp.broadinstitute.org/bundle/hg19/ucsc.hg19.fasta&quot;</span> \
+  <span class="o">-</span><span class="nb">input</span> <span class="s2">&quot;all_recalibrated_snps_raw_indels_exac.vcf&quot;</span> \
+  <span class="o">-</span><span class="n">mode</span> <span class="n">INDEL</span> \
+  <span class="o">--</span><span class="n">ts_filter_level</span> <span class="mf">95.0</span> \
+  <span class="o">-</span><span class="n">recalFile</span> <span class="s2">&quot;all_recalibrate_INDEL_exac.recal&quot;</span> \
+  <span class="o">-</span><span class="n">tranchesFile</span> <span class="s2">&quot;all_recalibrate_INDEL_exac.tranches&quot;</span> \
+  <span class="o">-</span><span class="n">o</span> <span class="s2">&quot;all_recalibrated_variants_exac.vcf&quot;</span>
 </pre></div>
 </div>
 </div>
