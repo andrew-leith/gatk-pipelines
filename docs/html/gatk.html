@@ -69,7 +69,7 @@ myR2=$mysamplebase&quot;_2.fastq&quot;
 </pre></div>
 </div>
 <p>as the base filename (e.g. ‘SRR062634’ for ‘SRR062634_1.fastq’ and ‘SRR062634_2.fastq’), and then use that to determine the names of the fastqs for the given sample.  This variable is used in nearly every successive function in the entire pipeline, so assigning it correctly is imperative.</p>
-<p>Align reads to the reference genome using BWA-mem, specifying read groups as is mandatory:</p>
+<p>Align reads to the reference genome using <a class="reference external" href="http://bio-bwa.sourceforge.net/bwa.shtml">BWA-mem</a>, specifying read groups as is mandatory:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>bwa mem \
   -t 8 \
   -R &#39;@RG\tID:&#39;$mysamplebase&#39;\tLB:&#39;$mysamplebase&#39;\tSM:&#39;$mysamplebase&#39;\tPL:ILLUMINA&#39; \
@@ -78,7 +78,7 @@ myR2=$mysamplebase&quot;_2.fastq&quot;
   &gt; $mysamplebase&quot;.sam&quot;
 </pre></div>
 </div>
-<p>Using samtools, process the SAM file into a sorted BAM file:</p>
+<p>Using <a class="reference external" href="http://www.htslib.org/doc/samtools.html">samtools</a>, process the SAM file into a sorted BAM file:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>samtools view -S -b $mysamplebase&quot;.sam&quot; &gt; $mysamplebase&quot;.bam&quot;
 samtools sort $mysamplebase&quot;.bam&quot; -T temp -o $mysamplebase&quot;_sorted.bam&quot;
 samtools index $mysamplebase&quot;_sorted.bam&quot;

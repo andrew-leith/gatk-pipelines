@@ -35,7 +35,7 @@ We define the variable::
 as the base filename (e.g. 'SRR062634' for 'SRR062634_1.fastq' and 'SRR062634_2.fastq'), and then use that to determine the names of the fastqs for the given sample.  This variable is used in nearly every successive function in the entire pipeline, so assigning it correctly is imperative.
 
 
-Align reads to the reference genome using BWA-mem, specifying read groups as is mandatory::
+Align reads to the reference genome using `BWA-mem <http://bio-bwa.sourceforge.net/bwa.shtml>`_, specifying read groups as is mandatory::
 
   bwa mem \
     -t 8 \
@@ -44,7 +44,7 @@ Align reads to the reference genome using BWA-mem, specifying read groups as is 
     $myR1 $myR2 \
     > $mysamplebase".sam"
 
-Using samtools, process the SAM file into a sorted BAM file::
+Using `samtools <http://www.htslib.org/doc/samtools.html>`_, process the SAM file into a sorted BAM file::
 
   samtools view -S -b $mysamplebase".sam" > $mysamplebase".bam"
   samtools sort $mysamplebase".bam" -T temp -o $mysamplebase"_sorted.bam"
