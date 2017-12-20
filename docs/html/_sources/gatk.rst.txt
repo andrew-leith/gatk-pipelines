@@ -1,5 +1,11 @@
+.. role:: rubric
+
+
 Walkthrough
 ===========
+
+I like color :rubric:`rubric`.
+
 
 Required Reference Files
 ========================
