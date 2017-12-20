@@ -8,7 +8,7 @@ The software needed by this pipeline can be installed in a few short steps using
 
   conda create -n gatk -c compbiocore gatk
 
-This command generates a new conda environment entitled 'gatk' and installs a GATK wrapper script into it.  Once completed, the 'gatk' environment should be automatically activated, which will be denoted by a '(gatk)' at the left of your command prompt like so::
+This command generates a new conda environment entitled 'gatk' and installs a GATK wrapper script into it.  Once completed, the 'gatk' environment should be automatically activated, which will be denoted by a '(gatk)' at the left of your command prompt like so:
 
 .. image:: terminal.png
 
