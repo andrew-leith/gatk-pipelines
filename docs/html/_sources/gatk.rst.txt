@@ -13,6 +13,10 @@ This command generates a new conda environment entitled 'gatk' and installs a GA
 .. image:: terminal.png
    :scale: 50 %
 
+If the '(gatk)' is not there, then the conda environment is not loaded.  In that case, and when opening fresh terminal sessions in the future, the 'gatk' environment can be loaded using the command::
+
+  source activate gatk
+
 Next, we install the other dependencies::
 
   conda install -c compbiocore bwa picard samtools

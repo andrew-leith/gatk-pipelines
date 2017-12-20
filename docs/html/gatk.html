@@ -51,6 +51,10 @@
 </div>
 <p>This command generates a new conda environment entitled ‘gatk’ and installs a GATK wrapper script into it.  Once completed, the ‘gatk’ environment should be automatically activated, which will be denoted by a ‘(gatk)’ at the left of your command prompt like so:</p>
 <a class="reference internal image-reference" href="_images/terminal.png"><img alt="_images/terminal.png" src="_images/terminal.png" style="width: 290.5px; height: 31.0px;" /></a>
+<p>If the ‘(gatk)’ is not there, then the conda environment is not loaded.  In that case, and when opening fresh terminal sessions in the future, the ‘gatk’ environment can be loaded using the command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">source</span> <span class="n">activate</span> <span class="n">gatk</span>
+</pre></div>
+</div>
 <p>Next, we install the other dependencies:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">compbiocore</span> <span class="n">bwa</span> <span class="n">picard</span> <span class="n">samtools</span>
 </pre></div>
