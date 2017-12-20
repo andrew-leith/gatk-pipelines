@@ -57,7 +57,7 @@ Run Picard Tools' `MeanQualityByCycle <https://broadinstitute.github.io/picard/c
     VALIDATION_STRINGENCY=LENIENT \
     REFERENCE_SEQUENCE=$myfasta
 
-the QualityScoreDistribution utility::
+the `QualityScoreDistribution <https://broadinstitute.github.io/picard/command-line-overview.html#QualityScoreDistribution>`_ utility::
 
   picard QualityScoreDistribution \
     INPUT=$mysamplebase"_sorted.bam" \
@@ -66,7 +66,7 @@ the QualityScoreDistribution utility::
     VALIDATION_STRINGENCY=LENIENT \
     REFERENCE_SEQUENCE=$myfasta
 
-the CollectWgsMetrics utility::
+the `CollectWgsMetrics <https://broadinstitute.github.io/picard/command-line-overview.html#CollectWgsMetrics>`_ utility::
 
   picard CollectWgsMetrics \
     INPUT=$mysamplebase"_sorted.bam" OUTPUT=$mysamplebase"_stats_picard.txt" \
@@ -75,7 +75,7 @@ the CollectWgsMetrics utility::
     MINIMUM_BASE_QUALITY=20 \
     VALIDATION_STRINGENCY=LENIENT
 
-and finally the MarkDuplicates utility::
+and finally the `MarkDuplicates <https://broadinstitute.github.io/picard/command-line-overview.html#MarkDuplicates>`_ utility::
 
   picard MarkDuplicates I=$mysamplebase"_sorted.bam" \
     O=$mysamplebase"_sorted_dedup.bam" M=$mysamplebase"_dedup_metric.txt" \
@@ -84,7 +84,9 @@ and finally the MarkDuplicates utility::
 
 This last step, which produces a deduplicated BAM file, is particularly important for further analysis.  In each case, VALIDATION_STRINGENCY=LENIENT is passed to Picard Tools as recommended by the GATK developers on their forums; omission of this argument often leads to the software breaking.
 
-Next, the first two GATK steps proceed, creating realignment targets and then utilizing them::
+Next, the first two GATK steps proceed, creating realignment targets and then utilizing them.
+
+GATK's `RealignerTargetCreator <https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_gatk_tools_walkers_indels_RealignerTargetCreator.php>`_::
 
   gatk -T RealignerTargetCreator \
     -R $myfasta \

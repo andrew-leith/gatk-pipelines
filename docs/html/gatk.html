@@ -93,7 +93,7 @@ samtools index $mysamplebase&quot;_sorted.bam&quot;
   REFERENCE_SEQUENCE=$myfasta
 </pre></div>
 </div>
-<p>the QualityScoreDistribution utility:</p>
+<p>the <a class="reference external" href="https://broadinstitute.github.io/picard/command-line-overview.html#QualityScoreDistribution">QualityScoreDistribution</a> utility:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>picard QualityScoreDistribution \
   INPUT=$mysamplebase&quot;_sorted.bam&quot; \
   CHART_OUTPUT=$mysamplebase&quot;_mean_quality_overall.pdf&quot; \
@@ -102,7 +102,7 @@ samtools index $mysamplebase&quot;_sorted.bam&quot;
   REFERENCE_SEQUENCE=$myfasta
 </pre></div>
 </div>
-<p>the CollectWgsMetrics utility:</p>
+<p>the <a class="reference external" href="https://broadinstitute.github.io/picard/command-line-overview.html#CollectWgsMetrics">CollectWgsMetrics</a> utility:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>picard CollectWgsMetrics \
   INPUT=$mysamplebase&quot;_sorted.bam&quot; OUTPUT=$mysamplebase&quot;_stats_picard.txt&quot; \
   REFERENCE_SEQUENCE=$myfasta \
@@ -111,7 +111,7 @@ samtools index $mysamplebase&quot;_sorted.bam&quot;
   VALIDATION_STRINGENCY=LENIENT
 </pre></div>
 </div>
-<p>and finally the MarkDuplicates utility:</p>
+<p>and finally the <a class="reference external" href="https://broadinstitute.github.io/picard/command-line-overview.html#MarkDuplicates">MarkDuplicates</a> utility:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>picard MarkDuplicates I=$mysamplebase&quot;_sorted.bam&quot; \
   O=$mysamplebase&quot;_sorted_dedup.bam&quot; M=$mysamplebase&quot;_dedup_metric.txt&quot; \
   VALIDATION_STRINGENCY=LENIENT \
@@ -119,7 +119,8 @@ samtools index $mysamplebase&quot;_sorted.bam&quot;
 </pre></div>
 </div>
 <p>This last step, which produces a deduplicated BAM file, is particularly important for further analysis.  In each case, VALIDATION_STRINGENCY=LENIENT is passed to Picard Tools as recommended by the GATK developers on their forums; omission of this argument often leads to the software breaking.</p>
-<p>Next, the first two GATK steps proceed, creating realignment targets and then utilizing them:</p>
+<p>Next, the first two GATK steps proceed, creating realignment targets and then utilizing them.</p>
+<p>GATK’s <a class="reference external" href="https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_gatk_tools_walkers_indels_RealignerTargetCreator.php">RealignerTargetCreator</a>:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>gatk -T RealignerTargetCreator \
   -R $myfasta \
   -I $mysamplebase&quot;_sorted_dedup.bam&quot; \
