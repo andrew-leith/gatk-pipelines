@@ -84,7 +84,7 @@ samtools sort $mysamplebase&quot;.bam&quot; -T temp -o $mysamplebase&quot;_sorte
 samtools index $mysamplebase&quot;_sorted.bam&quot;
 </pre></div>
 </div>
-<p>Run Picard Tools’ <cite>MeanQualityByCycle &lt;https://broadinstitute.github.io/picard/command-line-overview.html#MeanQualityByCycle&gt;</cite> utility:</p>
+<p>Run Picard Tools’ <a class="reference external" href="https://broadinstitute.github.io/picard/command-line-overview.html#MeanQualityByCycle">MeanQualityByCycle</a> utility:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>picard MeanQualityByCycle \
   INPUT=$mysamplebase&quot;_sorted.bam&quot; \
   CHART_OUTPUT=$mysamplebase&quot;_mean_quality_by_cycle.pdf&quot; \
