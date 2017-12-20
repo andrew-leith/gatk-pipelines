@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Walkthrough &#8212; gatk-pipelines 1 documentation</title>
+    <title>GATK EXAC Protocol Walkthrough &#8212; gatk-pipelines 1 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -40,8 +40,44 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="walkthrough">
-<h1>Walkthrough<a class="headerlink" href="#walkthrough" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="gatk-exac-protocol-walkthrough">
+<h1>GATK EXAC Protocol Walkthrough<a class="headerlink" href="#gatk-exac-protocol-walkthrough" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="installing-the-software">
+<h1>Installing the Software<a class="headerlink" href="#installing-the-software" title="Permalink to this headline">¶</a></h1>
+<p>The software needed by this pipeline can be installed in a few short steps using the <a class="reference external" href="https://conda.io/docs/user-guide/install/index.html">conda package manager</a>.  With conda on your system - which does not require superuser access to configure - the following commands will install the requisite tools:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">gatk</span> <span class="o">-</span><span class="n">c</span> <span class="n">compbiocore</span> <span class="n">gatk</span>
+</pre></div>
+</div>
+<p>This command generates a new conda environment entitled ‘gatk’ and installs a GATK wrapper script into it.  Once completed, the ‘gatk’ environment should be automatically activated, which will be denoted by a ‘(gatk)’ at the left of your command prompt like so:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">image</span><span class="p">::</span> <span class="n">terminal</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">scale:</th><td class="field-body">50 %</td>
+</tr>
+<tr class="field-even field"><th class="field-name">alt:</th><td class="field-body">terminal showing an active gatk conda environment</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>Next, we install the other dependencies:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">compbiocore</span> <span class="n">bwa</span> <span class="n">picard</span> <span class="n">samtools</span>
+</pre></div>
+</div>
+<p>This command installs three additional pieces of software needed for this pipeline: the BWA aligner, the samtools utility, and the Picard suite.</p>
+<p>Next, it is necessary to download the GATK software itself.  Due to licensing constraints, the conda recipe for GATK does not include its executible.  It does, however, include a utility for configuring GATK as soon as it is downloaded.  Thus, once you download GATK from the Broad, run:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">gatk</span><span class="o">-</span><span class="n">register</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">GATK</span>
+</pre></div>
+</div>
+<p>and the conda package will take care of the rest, moving everything where it needs to go.  From there, GATK can be evoked from the command line; the installation can be verified by running:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">gatk</span> <span class="o">-</span><span class="n">version</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="required-reference-files">
 <h1>Required Reference Files<a class="headerlink" href="#required-reference-files" title="Permalink to this headline">¶</a></h1>
@@ -323,7 +359,8 @@ gatk -T BaseRecalibrator \
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Walkthrough</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">GATK EXAC Protocol Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#installing-the-software">Installing the Software</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#required-reference-files">Required Reference Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#sample-processing-and-preparation">Sample Processing and Preparation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#combined-sample-analysis">Combined-Sample Analysis</a></li>

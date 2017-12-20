@@ -1,7 +1,32 @@
-Walkthrough
-===========
+GATK EXAC Protocol Walkthrough
+==============================
 
+Installing the Software
+=======================
 
+The software needed by this pipeline can be installed in a few short steps using the `conda package manager <https://conda.io/docs/user-guide/install/index.html>`_.  With conda on your system - which does not require superuser access to configure - the following commands will install the requisite tools::
+
+  conda create -n gatk -c compbiocore gatk
+
+This command generates a new conda environment entitled 'gatk' and installs a GATK wrapper script into it.  Once completed, the 'gatk' environment should be automatically activated, which will be denoted by a '(gatk)' at the left of your command prompt like so::
+
+.. image:: terminal.png
+   :scale: 50 %
+   :alt: terminal showing an active gatk conda environment
+
+Next, we install the other dependencies::
+
+  conda install -c compbiocore bwa picard samtools
+
+This command installs three additional pieces of software needed for this pipeline: the BWA aligner, the samtools utility, and the Picard suite.
+
+Next, it is necessary to download the GATK software itself.  Due to licensing constraints, the conda recipe for GATK does not include its executible.  It does, however, include a utility for configuring GATK as soon as it is downloaded.  Thus, once you download GATK from the Broad, run::
+
+  gatk-register /path/to/GATK
+
+and the conda package will take care of the rest, moving everything where it needs to go.  From there, GATK can be evoked from the command line; the installation can be verified by running::
+
+  gatk -version
 
 Required Reference Files
 ========================
