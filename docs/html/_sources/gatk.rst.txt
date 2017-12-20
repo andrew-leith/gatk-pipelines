@@ -11,8 +11,6 @@ The software needed by this pipeline can be installed in a few short steps using
 This command generates a new conda environment entitled 'gatk' and installs a GATK wrapper script into it.  Once completed, the 'gatk' environment should be automatically activated, which will be denoted by a '(gatk)' at the left of your command prompt like so::
 
 .. image:: terminal.png
-   :scale: 50 %
-   :alt: terminal showing an active gatk conda environment
 
 Next, we install the other dependencies::
 
