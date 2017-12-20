@@ -1,10 +1,10 @@
-.. role:: rubric
+.. role:: red
 
 
 Walkthrough
 ===========
 
-I like color :rubric:`rubric`.
+I like color :red:`rubric`.
 
 
 Required Reference Files
